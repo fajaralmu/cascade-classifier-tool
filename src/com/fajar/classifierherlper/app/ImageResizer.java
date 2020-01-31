@@ -1,18 +1,38 @@
 package com.fajar.classifierherlper.app;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
 public class ImageResizer {
 
-	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives";
-	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\bg";
+	//SPOON
+//	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\final";
+//	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\RAW";
+//	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\bg";
+	
+	//BALSEM
+//	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\positives\\final";
+//	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\positives\\RAW";
+//	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\bg";
+//	
+	
+	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\final";
+	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\RAW";
+	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\bg";
+	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\RECT";
+	
+	
+	private static final String BASE_BG_IMG_PATH = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\BASE\\base_BG.JPG";
+	static BufferedImage baseBackgroundImage;
+	static final Random random = new Random();
 
 	// https://www.codejava.net/java-se/graphics/how-to-resize-images-in-java
 	public static boolean resize(String inputImagePath, String outputImagePath, int scaledWidth, int scaledHeight) {
@@ -44,7 +64,7 @@ public class ImageResizer {
 
 	}
 
-	public static boolean flip(String inputImagePath,String outputImagePath, int mode) {
+	public static boolean flip(String inputImagePath, String outputImagePath, int mode) {
 		try {
 			// reads input image
 			File inputFile = new File(inputImagePath);
@@ -75,30 +95,105 @@ public class ImageResizer {
 			}
 			File outputFile = new File(outputImagePath);
 			boolean write = ImageIO.write(image, "jpg", outputFile);
-			System.out.println("WRITE:"+write);
-			return true;
+			System.out.println("WRITE:" + write);
+			return write;
 		} catch (Exception ex) {
 			return false;
 		}
 	}
 
+	public static Color randomColor() {
+
+		Color color = new Color(random.nextInt(250) + 1, random.nextInt(250) + 1, random.nextInt(250) + 1);
+		return color;
+	}
+
+	public static boolean resizeAddBg(String inputImagePath, String outputImagePath, int w, int h) {
+
+		if (w == h) {
+			return true;
+		}
+
+		try {
+			File inputFile = new File(inputImagePath);
+			int sideLength = w > h ? w : h;
+
+			BufferedImage inputImage = ImageIO.read(inputFile);
+
+			// creates output image
+			BufferedImage outputImage = new BufferedImage(sideLength, sideLength, BufferedImage.TYPE_INT_RGB);
+
+			Graphics2D g2d = outputImage.createGraphics();
+
+			int initialX = 0, initialY = 0;
+
+			// horizontal rectangle
+			if (w >= h) {
+				initialY = (w - h) / 2;
+			} else {
+				initialX = (h - w) / 2;
+			}
+
+			g2d.setColor(randomColor());
+
+			g2d.drawImage(baseBackgroundImage, 0, 0, sideLength, sideLength, randomColor(), null);
+			 g2d.fillRect(0, 0, sideLength, sideLength);
+			g2d.drawImage(inputImage, initialX, initialY, w, h, null);
+			g2d.dispose();
+
+			// extracts extension of output file
+			String formatName = outputImagePath.substring(outputImagePath.lastIndexOf(".") + 1);
+
+			// writes to output file
+			File outputFile = new File(outputImagePath);
+			boolean write = ImageIO.write(outputImage, "jpg", outputFile);
+			System.out.println("Writing: " + outputFile);
+			return write;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return true;
+	}
+
 	public static void main(String[] args) throws IOException {
+
+		File baseBgFile = new File(BASE_BG_IMG_PATH);
+		baseBackgroundImage = ImageIO.read(baseBgFile);
+
 		File baseFile = new File(BASE_DIR);
 		File[] files = baseFile.listFiles();
 		int count = 0;
+
+		final String fileExt = ".jpg";
+
 		for (File file : files) {
-			if (file.isDirectory() || (!file.getName().endsWith(".jpg") && !file.getName().endsWith(".JPG"))) {
+			if (file.isDirectory()
+					|| (!file.getName().endsWith(fileExt) && !file.getName().endsWith(fileExt.toUpperCase()))) {
 				continue;
 			}
-			
+
 			BufferedImage image = ImageIO.read(file);
-			
-			System.out.println(file.getName()+" 1 0 0 "+image.getWidth()+" "+image.getHeight()); 
-			//flip
+			final int w = image.getWidth();
+			final int h = image.getHeight();
+
+			int sizeLength = w >= h ? w : h;
+
+			// System.out.println(file.getName()+" 1 0 0 "+image.getWidth()+"
+			// "+image.getHeight());
+			// flip
 //			flip(file.getCanonicalPath(),BASE_DIR.concat("\\flip_"+1).concat(file.getName()), 1);
 //			flip(file.getCanonicalPath(),BASE_DIR.concat("\\flip_"+2).concat(file.getName()), 2);
 //			flip(file.getCanonicalPath(),BASE_DIR.concat("\\flip_"+3).concat(file.getName()), 3);
-			
+
+			// BG
+//			if(file.getName().endsWith(fileExt))
+//			resize(file.getCanonicalPath(), file.getCanonicalPath().replace("png", "JPG"), 200, 200);
+//			else
+//			resize(file.getCanonicalPath(), file.getCanonicalPath().replace("PNG", "JPG"), 200, 200);
+//			boolean resizeAddBg = resizeAddBg(file.getCanonicalPath(),
+//					BASE_DIR_RECT.concat("\\rect_").concat(file.getName()), w, h);
+			System.out.println(file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
 			count++;
 		}
 
