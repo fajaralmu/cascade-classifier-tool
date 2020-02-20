@@ -1,0 +1,5 @@
+CREATE SAMPLE:
+./opencv_createsamplesd -info "C:\Users\Republic Of Gamers\Pictures\cascadeclassifier\stopSign\stop.txt" -vec "C:\Users\Republic Of Gamers\Pictures\cascadeclassifier\stopSign\stop.vec" -w 24 -h 24 -num 8
+
+TRAIN 
+./opencv_traincascaded -data classifier -vec "C:\Users\Republic Of Gamers\Pictures\cascadeclassifier\stopSign\stop.vec" -bg "C:\Users\Republic Of Gamers\Pictures\cascadeclassifier\stopSign\neg.txt" -numPos 8 -numNeg 20 -numStages 20 -minHitRate 0.95 -maxFalseAlarmRate 0.5 -w 24 -h 24

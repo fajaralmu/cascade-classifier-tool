@@ -23,11 +23,29 @@ public class ImageResizer {
 //	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\positives\\RAW";
 //	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\bg";
 //	
+	/**
+	 * PERFUME
+	 */
+//	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\final";
+//	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\RAW";
+//	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\bg";
+//	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\RECT";
+
+	/**
+	 * DYNO
+	 */
+//	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\positives\\final";
+//	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\positives\\RAW";
+//	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\bg";
+//	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\positives\\RECT";
 	
-	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\final";
-	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\RAW";
-	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\bg";
-	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\perfume\\positives\\RECT";
+	/**
+	 * CACTUS 1
+	 */
+	private static final String BASE_FINAL_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\final";
+	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RAW";
+	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus\\bg";
+	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RECT";
 	
 	
 	private static final String BASE_BG_IMG_PATH = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\BASE\\base_BG.JPG";
@@ -105,7 +123,7 @@ public class ImageResizer {
 	public static Color randomColor() {
 
 		Color color = new Color(random.nextInt(250) + 1, random.nextInt(250) + 1, random.nextInt(250) + 1);
-		return color;
+		return new Color(190,190,190);
 	}
 
 	public static boolean resizeAddBg(String inputImagePath, String outputImagePath, int w, int h) {
@@ -156,12 +174,17 @@ public class ImageResizer {
 		return true;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
+		Application application = new Application();
+	 
+	}
+	
+	public static void run() throws IOException {
 
 		File baseBgFile = new File(BASE_BG_IMG_PATH);
 		baseBackgroundImage = ImageIO.read(baseBgFile);
 
-		File baseFile = new File(BASE_DIR);
+		File baseFile = new File(BASE_FINAL_DIR);
 		File[] files = baseFile.listFiles();
 		int count = 0;
 
@@ -191,10 +214,14 @@ public class ImageResizer {
 //			resize(file.getCanonicalPath(), file.getCanonicalPath().replace("png", "JPG"), 200, 200);
 //			else
 //			resize(file.getCanonicalPath(), file.getCanonicalPath().replace("PNG", "JPG"), 200, 200);
-//			boolean resizeAddBg = resizeAddBg(file.getCanonicalPath(),
-//					BASE_DIR_RECT.concat("\\rect_").concat(file.getName()), w, h);
-			System.out.println(file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
-			count++;
+			boolean resizeAddBg = 
+					true;
+					
+// 					resizeAddBg(file.getCanonicalPath(), BASE_DIR_RECT.concat("\\rect_").concat(file.getName()), w, h);
+			if(resizeAddBg) {
+				System.out.println( file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
+				count++;
+			}
 		}
 
 		System.out.println("TOTAL: " + count);
