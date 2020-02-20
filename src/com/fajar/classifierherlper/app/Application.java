@@ -28,6 +28,7 @@ public class Application extends JFrame {
 	private JButton buttonChooseOriginPath = new JButton("Origin Path");
 	private JButton buttonChooseDestinationPath = new JButton("Destination Path");
 	private JButton buttonResizeImage = new JButton("Resize Background");
+	private JButton buttonPrintFiles = new JButton("Print Files");
 	
 	private JTextField labelOriginPath = new JTextField();
 	private JTextField labelDesinationPath = new JTextField();
@@ -79,7 +80,7 @@ public class Application extends JFrame {
 				
 				new CustomLabel("Extension"),inputExtension,
 				
-				buttonResizeImage, new JLabel()
+				buttonResizeImage, buttonPrintFiles
 				);
 
 		parentPanel.add(mainPanel);
@@ -93,8 +94,25 @@ public class Application extends JFrame {
 		buttonChooseDestinationPath.addActionListener(onChooseDestinationClick());
 		
 		buttonResizeImage.addActionListener(resizeImageOnClick());
+		buttonPrintFiles.addActionListener(printFilesOnClick());
 		
+		try {
+			fileChooser.setCurrentDirectory(new File("C:\\Users\\Republic Of Gamers\\Pictures"));
+		}catch (Exception e) {
+			System.out.println("Error getting default directory: "+e);
+		}
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+	}
+
+	private ActionListener printFilesOnClick() {
+		// TODO Auto-generated method stub
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ImageResizer.printActiveFile(originPath, inputExtension.getText());
+			}
+		};
 	}
 
 	private ActionListener resizeImageOnClick() {

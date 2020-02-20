@@ -13,12 +13,12 @@ import javax.imageio.ImageIO;
 
 public class ImageResizer {
 
-	//SPOON
+	// SPOON
 //	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\final";
 //	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\RAW";
 //	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\bg";
-	
-	//BALSEM
+
+	// BALSEM
 //	private static final String BASE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\positives\\final";
 //	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\positives\\RAW";
 //	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\balsem\\bg";
@@ -38,7 +38,7 @@ public class ImageResizer {
 //	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\positives\\RAW";
 //	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\bg";
 //	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\dyno\\positives\\RECT";
-	
+
 	/**
 	 * CACTUS 1
 	 */
@@ -46,8 +46,7 @@ public class ImageResizer {
 	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RAW";
 	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus\\bg";
 	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RECT";
-	
-	
+
 	private static final String BASE_BG_IMG_PATH = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\BASE\\base_BG.JPG";
 	static BufferedImage baseBackgroundImage;
 	static final Random random = new Random();
@@ -123,7 +122,7 @@ public class ImageResizer {
 	public static Color randomColor() {
 
 		Color color = new Color(random.nextInt(250) + 1, random.nextInt(250) + 1, random.nextInt(250) + 1);
-		return new Color(190,190,190);
+		return new Color(190, 190, 190);
 	}
 
 	public static boolean resizeAddBg(String inputImagePath, String outputImagePath, int w, int h) {
@@ -155,7 +154,7 @@ public class ImageResizer {
 			g2d.setColor(randomColor());
 
 			g2d.drawImage(baseBackgroundImage, 0, 0, sideLength, sideLength, randomColor(), null);
-			 g2d.fillRect(0, 0, sideLength, sideLength);
+			g2d.fillRect(0, 0, sideLength, sideLength);
 			g2d.drawImage(inputImage, initialX, initialY, w, h, null);
 			g2d.dispose();
 
@@ -176,9 +175,9 @@ public class ImageResizer {
 
 	public static void main(String[] args) {
 		Application application = new Application();
-	 
+
 	}
-	
+
 	public static void run() throws IOException {
 
 		File baseBgFile = new File(BASE_BG_IMG_PATH);
@@ -214,24 +213,22 @@ public class ImageResizer {
 //			resize(file.getCanonicalPath(), file.getCanonicalPath().replace("png", "JPG"), 200, 200);
 //			else
 //			resize(file.getCanonicalPath(), file.getCanonicalPath().replace("PNG", "JPG"), 200, 200);
-			boolean resizeAddBg = 
-					true;
-					
+			boolean resizeAddBg = true;
+
 // 					resizeAddBg(file.getCanonicalPath(), BASE_DIR_RECT.concat("\\rect_").concat(file.getName()), w, h);
-			if(resizeAddBg) {
-				System.out.println( file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
+			if (resizeAddBg) {
+				System.out.println(file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
 				count++;
 			}
 		}
 
 		System.out.println("TOTAL: " + count);
 	}
-	
-	public static void resizeBG(String originPath, String destinationPath ,String extension) {
-		 
-		
+
+	public static void resizeBG(String originPath, String destinationPath, String extension) {
+
 		System.out.println("WILL RESIZE BACKGROUND");
-		
+
 		File baseFile = new File(originPath);
 		File[] files = baseFile.listFiles();
 		int count = 0;
@@ -239,19 +236,18 @@ public class ImageResizer {
 		final String fileExt = ".".concat(extension);
 
 		for (File file : files) {
-			if (file.isDirectory()
-					|| !file.getName().toLowerCase().endsWith(fileExt.toLowerCase())) {
+			if (file.isDirectory() || !file.getName().toLowerCase().endsWith(fileExt.toLowerCase())) {
 				continue;
 			}
 
 			BufferedImage image = null;
-			
+
 			try {
 				image = ImageIO.read(file);
 			} catch (IOException e) {
-				// 
+				//
 
-				System.out.println("Error processing image, will continue  =" );
+				System.out.println("Error processing image, will continue  =");
 				e.printStackTrace();
 				continue;
 			}
@@ -260,22 +256,56 @@ public class ImageResizer {
 
 			int sizeLength = w >= h ? w : h;
 
-		 
 			boolean resizeAddBg = false;
-			
+
 			try {
-				resizeAddBg = resizeAddBg(file.getCanonicalPath(), destinationPath.concat("\\rect_").concat(file.getName()), w, h);
-			
+				resizeAddBg = resizeAddBg(file.getCanonicalPath(),
+						destinationPath.concat("\\rect_").concat(file.getName()), w, h);
+
 			} catch (IOException e) {
-				System.out.println("Error resize image. will continue"); 
+				System.out.println("Error resize image. will continue");
 				e.printStackTrace();
 				continue;
 			}
-			
-			if(resizeAddBg) {
-				System.out.println( file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
+
+			if (resizeAddBg) {
+				System.out.println(file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
 				count++;
 			}
+		}
+
+		System.out.println("TOTAL: " + count);
+	}
+
+	public static void printActiveFile(String originPath, String extension) {
+
+		System.out.println("WILL Print Active Files");
+
+		File baseFile = new File(originPath);
+		File[] files = baseFile.listFiles();
+		int count = 0;
+
+		final String fileExt = ".".concat(extension);
+
+		for (File file : files) {
+			if (file.isDirectory() || !file.getName().toLowerCase().endsWith(fileExt.toLowerCase())) {
+				continue;
+			}
+
+			BufferedImage image = null;
+
+			try {
+				image = ImageIO.read(file);
+				
+			} catch (IOException e) {  
+				System.out.println("Error processing image, will continue  =");
+				e.printStackTrace();
+				continue;
+			} 
+			
+			System.out.println(file.getName() + " 1 0 0 " +  image.getWidth() + " " + image.getHeight());
+			count++;
+
 		}
 
 		System.out.println("TOTAL: " + count);
