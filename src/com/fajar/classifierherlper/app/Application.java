@@ -9,10 +9,12 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.fajar.classifierherlper.app.component.ComponentBuilder;
 import com.fajar.classifierherlper.app.component.CustomLabel;
@@ -67,11 +69,19 @@ public class Application extends JFrame {
 	}
 
 	private void initComponent() {
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
 
 		parentPanel.removeAll();
 
 		PanelRequest panelRequest = new PanelRequest(2, 150, 20, 15, Color.white, 30, 30, 0, 0, true);
+		
 		JPanel mainPanel = ComponentBuilder.buildPanel(panelRequest, 
+				
 				new CustomLabel("Origin Path"), buttonChooseOriginPath, 
 				new CustomLabel("Destination Path"), buttonChooseDestinationPath,
 				
