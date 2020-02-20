@@ -226,4 +226,58 @@ public class ImageResizer {
 
 		System.out.println("TOTAL: " + count);
 	}
+	
+	public static void resizeBG(String originPath, String destinationPath ,String extension) {
+		 
+		
+		System.out.println("WILL RESIZE BACKGROUND");
+		
+		File baseFile = new File(originPath);
+		File[] files = baseFile.listFiles();
+		int count = 0;
+
+		final String fileExt = ".".concat(extension);
+
+		for (File file : files) {
+			if (file.isDirectory()
+					|| !file.getName().toLowerCase().endsWith(fileExt.toLowerCase())) {
+				continue;
+			}
+
+			BufferedImage image = null;
+			
+			try {
+				image = ImageIO.read(file);
+			} catch (IOException e) {
+				// 
+
+				System.out.println("Error processing image, will continue  =" );
+				e.printStackTrace();
+				continue;
+			}
+			final int w = image.getWidth();
+			final int h = image.getHeight();
+
+			int sizeLength = w >= h ? w : h;
+
+		 
+			boolean resizeAddBg = false;
+			
+			try {
+				resizeAddBg = resizeAddBg(file.getCanonicalPath(), destinationPath.concat("\\rect_").concat(file.getName()), w, h);
+			
+			} catch (IOException e) {
+				System.out.println("Error resize image. will continue"); 
+				e.printStackTrace();
+				continue;
+			}
+			
+			if(resizeAddBg) {
+				System.out.println( file.getName() + " 1 0 0 " + sizeLength + " " + sizeLength);
+				count++;
+			}
+		}
+
+		System.out.println("TOTAL: " + count);
+	}
 }

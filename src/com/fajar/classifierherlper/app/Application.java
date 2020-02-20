@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -30,6 +31,7 @@ public class Application extends JFrame {
 	
 	private JTextField labelOriginPath = new JTextField();
 	private JTextField labelDesinationPath = new JTextField();
+	private JTextField inputExtension = new JTextField("jpg");
 
 	private JFileChooser fileChooser  = new JFileChooser(); 
 
@@ -75,6 +77,8 @@ public class Application extends JFrame {
 				new CustomLabel("Origin Path"),		 labelOriginPath,
 				new CustomLabel("Destination Path"), labelDesinationPath,
 				
+				new CustomLabel("Extension"),inputExtension,
+				
 				buttonResizeImage, new JLabel()
 				);
 
@@ -88,7 +92,26 @@ public class Application extends JFrame {
 		buttonChooseOriginPath.addActionListener(onChooseOriginClick());
 		buttonChooseDestinationPath.addActionListener(onChooseDestinationClick());
 		
+		buttonResizeImage.addActionListener(resizeImageOnClick());
+		
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+	}
+
+	private ActionListener resizeImageOnClick() {
+		// TODO Auto-generated method stub
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 
+				int result =JOptionPane.showConfirmDialog(rootPane, "Are you sure?");
+				
+				if(result == JOptionPane.YES_OPTION) { 
+					ImageResizer.resizeBG(originPath, destinationPath, inputExtension.getText());
+				}
+				
+			}
+		};
 	}
 
 	private ActionListener onChooseOriginClick() {
