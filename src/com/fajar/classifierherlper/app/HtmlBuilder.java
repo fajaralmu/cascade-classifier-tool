@@ -41,7 +41,7 @@ public class HtmlBuilder {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		
-		imageMatrix = new int[width][height][3];
+		imageMatrix = new int[height][width][3];
 		 
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) { 
@@ -50,9 +50,9 @@ public class HtmlBuilder {
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				imageMatrix[x][y][0] = red;
-				imageMatrix[x][y][1] = green;
-				imageMatrix[x][y][2] = blue;
+				imageMatrix[y][x][0] = red;
+				imageMatrix[y][x][1] = green;
+				imageMatrix[y][x][2] = blue;
 			}
 		}
 		
@@ -91,7 +91,8 @@ public class HtmlBuilder {
 		
 		String style = ".row {display: grid;\r\n" + 
 				"		grid-template-columns: ${sizes};\r\n" + 
-				"		vertical-align: middle; }";
+				"		vertical-align: middle; }\n"
+				+ ".cell{ width:1px; height:1px;}\n";
 		
 		String sizes = StringUtils.repeat("1px ", cols);
 				
@@ -109,7 +110,8 @@ public class HtmlBuilder {
 			
 			int[][] currentRow = imageMatrix[i];
 			
-			stringBuilder.append("<div class=\"row\" id=\"").append(randomId()).append("\">");
+			stringBuilder.append("<div class=\"row\"")// id=\"").append(randomId())
+			.append( ">");
 			
 			 
 			
@@ -122,10 +124,10 @@ public class HtmlBuilder {
 				int b = currentCell[2];
 				
 				stringBuilder
-				.append("<div class=\"cell\" id=\"")
-				.append(randomIdCell())
-				.append("\"")
-				.append("style=\"width:1px;height:1px;background-color:rgb("+r+", "+g+", "+b+")\"")
+				.append("<div class=\"cell\" ")// id=\"")
+				//.append(randomIdCell())
+				//.append("\"")
+				.append("style=\"background-color:rgb("+r+", "+g+", "+b+")\"")
 				.append(">");
 				
 				stringBuilder.append("</div>");
