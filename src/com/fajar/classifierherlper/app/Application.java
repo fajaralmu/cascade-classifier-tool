@@ -2,6 +2,7 @@ package com.fajar.classifierherlper.app;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -18,9 +19,11 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.fajar.classifierherlper.app.component.BlankComponent;
 import com.fajar.classifierherlper.app.component.ComponentBuilder;
 import com.fajar.classifierherlper.app.component.CustomLabel;
 import com.fajar.classifierherlper.app.component.PanelRequest;
+import com.fajar.classifierherlper.app.component.ReservedFor;
 
 public class Application extends JFrame {
 
@@ -68,8 +71,8 @@ public class Application extends JFrame {
 
 	public void init() {
 		setBounds(0, 0, 600, 700);
-		setName("Image Resizer");
-		setTitle("Image Resizer");
+		setName("Image Manipulator");
+		setTitle("Image Manipulator");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 
@@ -82,6 +85,14 @@ public class Application extends JFrame {
 		setLocationByPlatform(true);
 
 		initEvent();
+	}
+	
+	private Component title(String title) {
+		
+		JLabel label = new JLabel(title);
+		Font font = new Font("Arial", Font.BOLD, 20);
+		label.setFont(font );
+		return label;
 	}
 
 	private void initComponent() {
@@ -98,6 +109,8 @@ public class Application extends JFrame {
 		
 		JPanel mainPanel = ComponentBuilder.buildPanel(panelRequest, 
 				
+				title("Image Manipulator"), 		new BlankComponent(ReservedFor.BEFORE_HOR, 150, 20),
+				
 				customLabel("Origin Path"), 		buttonChooseOriginPath, 
 				customLabel("Destination Path"), 	buttonChooseDestinationPath,
 				
@@ -111,11 +124,12 @@ public class Application extends JFrame {
 				buttonResizeImage, 					buttonPrintFiles,
  
 				
-				customLabel("Single Image Selection"),blankLabel(),
+				customLabel("Single Image Selection[00s]"),blankLabel(),
 				labelFilePath, 						buttonChooseFilePath,
 				/**
 				 * replication
 				 */
+				customLabel("Image Replication"),	blankLabel(),
 				inputReplication,  					buttonDoReplication,
 				/**
 				 * flip
@@ -125,7 +139,8 @@ public class Application extends JFrame {
 				/**
 				 * generate html
 				 */
-				blankLabel(), 						buttonDoGenerateHtml
+				customLabel("Generate html"),			blankLabel(),
+				customLabel("Select Image in menu [00s]"), 			buttonDoGenerateHtml
 				);
 
 		parentPanel.add(mainPanel);
