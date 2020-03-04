@@ -10,15 +10,17 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.fajar.classifierherlper.app.util.StringUtil;
-
 public class HtmlBuilder {
  
 	
 	private int[][][] imageMatrix;
+	private final String SIDE_LENGTH;
+	private final boolean bordered;
 	
-	public HtmlBuilder(String inputImagePath) {
+	public HtmlBuilder(String inputImagePath, int sideLength, boolean bordered) {
 		build(inputImagePath);
+		this.SIDE_LENGTH = sideLength+"px";
+		this.bordered = bordered;
 	}
 	
 	private void build(String inputImagePath) {
@@ -78,7 +80,9 @@ public class HtmlBuilder {
 		
 		stringBuilder.append(body);
 		stringBuilder.append("\n</body>\n</html>");
-		
+		System.out.println(StringUtils.repeat("=", 100));
+		System.out.println("");
+		System.out.println("");
 		System.out.println(stringBuilder.toString());
 		
 	}
@@ -89,12 +93,21 @@ public class HtmlBuilder {
 		
 		int cols = imageMatrix[0].length;
 		
-		String style = ".row {display: grid;\r\n" + 
-				"		grid-template-columns: ${sizes};\r\n" + 
-				"		vertical-align: middle; }\n"
-				+ ".cell{ width:1px; height:1px;}\n";
+		String style = ".row "
+				+ "{"
+				+ "display: grid;\r\n" + 
+				" grid-template-columns: ${sizes};\r\n" + 
+				" vertical-align: middle; "
+				+ "}\n"
+				
+				+ ".cell"
+				+ "{"
+				+ " width:"+SIDE_LENGTH+";"
+				+ " height:"+SIDE_LENGTH+"; "
+				+ 	(this.bordered?"border:solid 1px yellow":"")
+				+ "}\n";
 		
-		String sizes = StringUtils.repeat("1px ", cols);
+		String sizes = StringUtils.repeat(SIDE_LENGTH+" ", cols);
 				
 		stringBuilder.append(style.replace("${sizes}", sizes) );
 		
@@ -112,7 +125,6 @@ public class HtmlBuilder {
 			
 			stringBuilder.append("<div class=\"row\"")// id=\"").append(randomId())
 			.append( ">");
-			
 			 
 			
 			for (int j = 0; j < currentRow.length; j++) {

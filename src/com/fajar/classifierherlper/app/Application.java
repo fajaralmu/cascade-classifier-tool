@@ -173,7 +173,7 @@ public class Application extends JFrame {
 					return;
 				}
 				 
-				HtmlBuilder builder =new HtmlBuilder (filePath);
+				HtmlBuilder builder =new HtmlBuilder (filePath, 1, false);
 
 				builder.printHtml();
 			}
