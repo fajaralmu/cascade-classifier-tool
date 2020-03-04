@@ -1,6 +1,7 @@
 package com.fajar.classifierherlper.app;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -30,12 +31,13 @@ public class Application extends JFrame {
 
 	private JButton buttonChooseOriginPath = new JButton("Origin Path");
 	private JButton buttonChooseDestinationPath = new JButton("Destination Path");
-	private JButton buttonChooseFilePath = new JButton("File to replicate");
+	private JButton buttonChooseFilePath = new JButton("Select File");
 
 	private JButton buttonResizeImage = new JButton("Resize Background");
 	private JButton buttonPrintFiles = new JButton("Print Files");
 	private JButton buttonDoReplication = new JButton("Replicate");
 	private JButton buttonDoFlip = new JButton("Flip Image");
+	private JButton buttonDoGenerateHtml = new JButton("Generate Html");
 
 	private JTextField labelOriginPath = new JTextField();
 	private JTextField labelDesinationPath = new JTextField();
@@ -96,30 +98,48 @@ public class Application extends JFrame {
 		
 		JPanel mainPanel = ComponentBuilder.buildPanel(panelRequest, 
 				
-				new CustomLabel("Origin Path"), buttonChooseOriginPath, 
-				new CustomLabel("Destination Path"), buttonChooseDestinationPath,
+				customLabel("Origin Path"), 		buttonChooseOriginPath, 
+				customLabel("Destination Path"), 	buttonChooseDestinationPath,
 				
-				new CustomLabel("Origin Path"),		 labelOriginPath,
-				new CustomLabel("Destination Path"), labelDesinationPath,
+				customLabel("Origin Path"),		 	labelOriginPath,
+				customLabel("Destination Path"), 	labelDesinationPath,
 				
-				new CustomLabel("Extension"),inputExtension,
-				
-				buttonResizeImage, buttonPrintFiles,
+				customLabel("Extension"),			inputExtension,
+				/**
+				 * resize & Print images found in the directory
+				 */
+				buttonResizeImage, 					buttonPrintFiles,
  
 				
-				new CustomLabel("ReplicateFile"),new JLabel(),
-				buttonChooseFilePath,
-				labelFilePath, inputReplication, 
-				
-				buttonDoReplication, new JLabel(),
-				new CustomLabel("Flip Mode"),inputFlipMode,
-				buttonDoFlip
+				customLabel("Single Image Selection"),blankLabel(),
+				labelFilePath, 						buttonChooseFilePath,
+				/**
+				 * replication
+				 */
+				inputReplication,  					buttonDoReplication,
+				/**
+				 * flip
+				 */
+				customLabel("Flip Mode"),			blankLabel(), 
+				inputFlipMode, 						buttonDoFlip,
+				/**
+				 * generate html
+				 */
+				blankLabel(), 						buttonDoGenerateHtml
 				);
 
 		parentPanel.add(mainPanel);
 
 		this.setContentPane(parentPanel);
 
+	}
+
+	private Component customLabel(String string) { 
+		return new CustomLabel(string);
+	}
+
+	private Component blankLabel() { 
+		return new JLabel();
 	}
 
 	private void initEvent() {
@@ -131,6 +151,7 @@ public class Application extends JFrame {
 		buttonPrintFiles.addActionListener(printFilesOnClick());
 		buttonDoReplication.addActionListener(replicateImage());
 		buttonDoFlip.addActionListener(flipImage());
+		buttonDoGenerateHtml.addActionListener(generateHtml());
 
 		try {
 			fileChooser.setCurrentDirectory(new File("C:\\Users\\Republic Of Gamers\\Pictures"));
@@ -141,13 +162,31 @@ public class Application extends JFrame {
 		folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	}
 
+	private ActionListener generateHtml() {
+		
+		  return new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (null == filePath || filePath.isEmpty()) {
+					return;
+				}
+				 
+				HtmlBuilder builder =new HtmlBuilder (filePath);
+
+				builder.printHtml();
+			}
+		}; 
+	}
+
 	private ActionListener flipImage() {
-		// TODO Auto-generated method stub
+		
 		return new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				int mode = Integer.parseInt(inputFlipMode.getText());
 				ImageResizer.flipImage(originPath, destinationPath, mode);
 				
@@ -161,7 +200,7 @@ public class Application extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				if (null == filePath || filePath.isEmpty()) {
 					return;
 				}
@@ -177,7 +216,7 @@ public class Application extends JFrame {
 	}
 
 	private ActionListener onChooseFileClick() {
-		// TODO Auto-generated method stub
+		
 		return new ActionListener() {
 
 			@Override
@@ -204,7 +243,7 @@ public class Application extends JFrame {
 	}
 
 	private ActionListener printFilesOnClick() {
-		// TODO Auto-generated method stub
+		
 		return new ActionListener() {
 
 			@Override
@@ -215,7 +254,7 @@ public class Application extends JFrame {
 	}
 
 	private ActionListener resizeImageOnClick() {
-		// TODO Auto-generated method stub
+		
 		return new ActionListener() {
 
 			@Override
