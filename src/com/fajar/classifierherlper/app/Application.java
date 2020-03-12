@@ -41,6 +41,7 @@ public class Application extends JFrame {
 	private JButton buttonDoReplication = new JButton("Replicate");
 	private JButton buttonDoFlip = new JButton("Flip Image");
 	private JButton buttonDoGenerateHtml = new JButton("Generate Html");
+	private JButton buttonConvertBlackWhite = new JButton("Convert Black & White");
 
 	private JTextField labelOriginPath = new JTextField();
 	private JTextField labelDesinationPath = new JTextField();
@@ -140,7 +141,8 @@ public class Application extends JFrame {
 				 * generate html
 				 */
 				customLabel("Generate html"),			blankLabel(),
-				customLabel("Select Image in menu [00s]"), 			buttonDoGenerateHtml
+				customLabel("Select Image in menu [00s]"), buttonDoGenerateHtml,
+				customLabel("Select Image in menu [00s]"), buttonConvertBlackWhite
 				);
 
 		parentPanel.add(mainPanel);
@@ -167,7 +169,8 @@ public class Application extends JFrame {
 		buttonDoReplication.addActionListener(replicateImage());
 		buttonDoFlip.addActionListener(flipImage());
 		buttonDoGenerateHtml.addActionListener(generateHtml());
-
+		buttonConvertBlackWhite.addActionListener(convertBlackWhite());
+		
 		try {
 			fileChooser.setCurrentDirectory(new File("C:\\Users\\Republic Of Gamers\\Pictures"));
 			folderChooser.setCurrentDirectory(new File("C:\\Users\\Republic Of Gamers\\Pictures"));
@@ -175,6 +178,21 @@ public class Application extends JFrame {
 			System.out.println("Error getting default directory: " + e);
 		}
 		folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	}
+
+	private ActionListener convertBlackWhite() {
+		return new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (null == filePath || filePath.isEmpty()) {
+					return;
+				}
+				 
+				ImageProcessor.process(filePath);
+			}
+		}; 
 	}
 
 	private ActionListener generateHtml() {
