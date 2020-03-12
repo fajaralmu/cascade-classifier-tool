@@ -10,12 +10,13 @@ import javax.imageio.ImageIO;
 
 public class ImageProcessor {
 
-	private static final int PERCENTAGE = 15;
+	private static final int PERCENTAGE = 17;
 
 	public static void process(String inputImagePath) {
 
 		File inputFile = new File(inputImagePath);
 
+		System.out.println("Printing binary image in console");
 		
 		
 		try {
@@ -48,7 +49,7 @@ public class ImageProcessor {
 		StringBuilder stringBuilder = new StringBuilder();
 		 
 		for (int y = 0; y < height; y++) {
-			stringBuilder.append('\n');
+			
 			for (int x = 0; x < width; x++) { 
 				int pixel = image.getRGB(x, y);
 				int red = (pixel >> 16) & 0xff;
@@ -65,6 +66,7 @@ public class ImageProcessor {
 					stringBuilder.append(' ');
 				}
 			}
+			stringBuilder.append('\n');
 		}
 		System.out.println(stringBuilder.toString());
 	}
