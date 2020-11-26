@@ -155,12 +155,12 @@ public class HtmlBuilder {
 		return stringBuilder.append("</div>").toString();
 	}
 	
-	private String randomId() {
+	public static String randomId() {
 		
 		return String.valueOf(RandomUtils.nextInt(1, 90000000));
 	}
 	
-	private String randomIdCell() {
+	public static String randomIdCell() {
 		
 		 return UUID.randomUUID().toString();
 	}

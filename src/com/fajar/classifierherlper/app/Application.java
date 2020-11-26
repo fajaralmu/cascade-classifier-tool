@@ -15,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import com.fajar.classifierherlper.app.component.BlankComponent;
 import com.fajar.classifierherlper.app.component.ComponentBuilder;
@@ -48,9 +46,7 @@ public class Application extends JFrame {
 	private JTextField labelFilePath = new JTextField();
 
 	private JTextField inputExtension = new JTextField("jpg");
-	private JTextField inputReplication = new JTextField("0") {
-
-	};
+	private JTextField inputReplication = new JTextField("0");
 
 	private JTextField inputFlipMode = new JTextField("1");
 
@@ -66,7 +62,7 @@ public class Application extends JFrame {
 	public Application() {
 		super();
 		this.init();
-		this.show();
+		this.setVisible(true);
 
 	}
 

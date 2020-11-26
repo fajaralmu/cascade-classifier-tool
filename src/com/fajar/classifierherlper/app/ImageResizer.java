@@ -45,9 +45,9 @@ public class ImageResizer {
 	 * CACTUS 1
 	 */
 	private static final String BASE_FINAL_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\final";
-	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RAW";
-	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus\\bg";
-	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RECT";
+//	private static final String BASE_RAW_POSITIVE_DIR = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RAW";
+//	private static final String BASE_DIR_BG = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus\\bg";
+//	private static final String BASE_DIR_RECT = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\cactus_new_single\\positives\\RECT";
 
 	private static final String BASE_BG_IMG_PATH = "C:\\Users\\Republic Of Gamers\\Pictures\\cascadeclassifier\\spoon\\positives\\BASE\\base_BG.JPG";
 	static BufferedImage baseBackgroundImage;
@@ -125,7 +125,7 @@ public class ImageResizer {
 
 	public static Color randomColor() {
 
-		Color color = new Color(random.nextInt(250) + 1, random.nextInt(250) + 1, random.nextInt(250) + 1);
+//		Color color = new Color(random.nextInt(250) + 1, random.nextInt(250) + 1, random.nextInt(250) + 1);
 		return new Color(220, 220, 200);
 	}
 
@@ -163,7 +163,7 @@ public class ImageResizer {
 			g2d.dispose();
 
 			// extracts extension of output file
-			String formatName = outputImagePath.substring(outputImagePath.lastIndexOf(".") + 1);
+//			String formatName = outputImagePath.substring(outputImagePath.lastIndexOf(".") + 1);
 
 			// writes to output file
 			File outputFile = new File(outputImagePath);
@@ -178,7 +178,7 @@ public class ImageResizer {
 	}
 
 	public static void main(String[] args) {
-		Application application = new Application();
+		new Application();
 
 	}
 
@@ -290,12 +290,10 @@ public class ImageResizer {
 		int count = 0;
  
 
-		for (File file : files) {
-			 
-			BufferedImage image = null;
+		for (File file : files) { 
 
 			try {
-				image = ImageIO.read(file);
+				ImageIO.read(file);
 			} catch (IOException e) {
 				//
 

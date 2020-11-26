@@ -1,23 +1,31 @@
 package com.fajar.classifierherlper.app;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class ImageProcessor {
 
 	private static final int PERCENTAGE = 17;
+	static Date date = new Date();
+	static final String TEMPLATE="SELAMAT#HARI#GURU#NASIONAL#2020#";
+	
+	public static void main(String[] args) {
+		process("C:\\Users\\Republic Of Gamers\\Pictures\\teacher_day.JPG");
+	}
 
 	public static void process(String inputImagePath) {
-
+		date = new Date();
 		File inputFile = new File(inputImagePath);
 
 		System.out.println("Printing binary image in console");
-		
+		System.out.println(StringUtils.repeat("-", 200));
 		
 		try {
 			BufferedImage image = ImageIO.read(inputFile);
@@ -35,7 +43,8 @@ public class ImageProcessor {
             
             printImage(ImageIO.read(output));
             
-            System.out.println("DONE");
+            System.out.println(StringUtils.repeat("-", 200));
+            System.out.println("Duration:"+(System.currentTimeMillis()-date.getTime())+"ms");
 		} catch (IOException e) { 
 			e.printStackTrace();
 		}
@@ -47,7 +56,7 @@ public class ImageProcessor {
 		int height = image.getHeight();
 		 
 		StringBuilder stringBuilder = new StringBuilder();
-		 
+		int charIndex = 0;
 		for (int y = 0; y < height; y++) {
 			
 			for (int x = 0; x < width; x++) { 
@@ -60,10 +69,14 @@ public class ImageProcessor {
 				boolean white = red == 255 && green == 255 && blue == 255;
 				
 				if(black) {
-					stringBuilder.append('o');
+					stringBuilder.append(TEMPLATE.charAt(charIndex));
+					charIndex++;
+					if (charIndex == TEMPLATE.length()) {
+						charIndex = 0;
+					}
 					
 				}else if(white){
-					stringBuilder.append(' ');
+					stringBuilder.append('-');
 				}
 			}
 			stringBuilder.append('\n');
